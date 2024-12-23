@@ -1,0 +1,128 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String     @id @default(uuid())
+  no            Int        @default(autoincrement())
+  name          String
+  email         String     @unique
+  provider      String
+  pId           String
+  otpExpireDate String
+  otp           String
+  // 
+  //extras 
+  // 
+  password      String
+  role          String
+  picUrl        String
+  picName       String
+  desc          String
+  gender        String
+  Shop          Shop?
+  order         Order[]
+  createdAt     DateTime   @default(now())
+  chatroom      Chatroom[]
+}
+
+model Admin {
+  id        String   @id @default(uuid())
+  no        Int      @default(autoincrement())
+  createdAt DateTime @default(now())
+}
+
+model Shop {
+  id        String    @id @default(uuid())
+  no        Int       @default(autoincrement())
+  name      String
+  desc      String
+  user      User?     @relation(fields: [userId], references: [id])
+  userId    String?   @unique
+  createdAt DateTime  @default(now())
+  Product   Product[]
+}
+
+model Product {
+  id        String   @id @default(uuid())
+  no        Int      @default(autoincrement())
+  name      String
+  desc      String
+  shop      Shop     @relation(fields: [shopId], references: [id])
+  shopId    String
+  price     Int
+  createdAt DateTime @default(now())
+}
+
+model Colour {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+}
+
+model Sizes {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+}
+
+model Order {
+  id        String   @id @default(uuid())
+  no        Int      @default(autoincrement())
+  createdAt DateTime @default(now())
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+}
+
+model Message {
+  id         String   @id @default(uuid())
+  no         Int      @default(autoincrement())
+  room       Chatroom @relation(fields: [chatroomId], references: [id])
+  createdAt  DateTime @default(now())
+  chatroomId String
+  data       String
+  mimeType   String
+}
+
+model Chatroom {
+  id        String    @id @default(uuid())
+  no        Int       @default(autoincrement())
+  createdAt DateTime  @default(now())
+  Message   Message[]
+  user      User[]
+}
+
+model Reviews {
+  id        String   @id @default(uuid())
+  no        Int      @default(autoincrement())
+  itemId    String
+  userId    String
+  ratings   String
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model Wishlist {
+  id        String   @id @default(uuid())
+  no        Int      @default(autoincrement())
+  itemId    String
+  userId    String
+  createdAt DateTime @default(now())
+}
+
+model Storage {
+  id String @id @default(uuid())
+  no Int    @default(autoincrement())
+
+  name      String
+  url       String
+  mimieType String
+  type      String
+  userId    String
+  createdAt DateTime @default(now())
+}
