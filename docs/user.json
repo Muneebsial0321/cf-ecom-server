@@ -1,0 +1,20 @@
+{
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "provider": "google",
+    "pId": "google-12345",
+    "role": "user",
+    "otpExpireDate": "2024-12-31T23:59:59Z",
+    "otp": "123456",
+    "password": "securepassword123",
+    "picUrl": "https://example.com/profile.jpg",
+    "picName": "profile.jpg",
+    "desc": "A sample user description",
+    "gender": "male",
+    "Shop": null,
+    "order": [],
+    "createdAt": "2024-12-24T12:00:00Z",
+    "chatroom": [],
+    "Wishlist": []
+  }
+  

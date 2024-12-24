@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateWishlistDto } from './dto/create-wishlist.dto';
-import { UpdateWishlistDto } from './dto/update-wishlist.dto';
+import { CreateWishListDto } from './dto/create-wishlist.dto';
 
 @Injectable()
 export class WishlistService {
-  create(createWishlistDto: CreateWishlistDto) {
+  create(createWishlistDto: CreateWishListDto) {
     return 'This action adds a new wishlist';
   }
 
@@ -16,9 +15,6 @@ export class WishlistService {
     return `This action returns a #${id} wishlist`;
   }
 
-  update(id: number, updateWishlistDto: UpdateWishlistDto) {
-    return `This action updates a #${id} wishlist`;
-  }
 
   remove(id: number) {
     return `This action removes a #${id} wishlist`;
