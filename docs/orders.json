@@ -1,0 +1,14 @@
+{
+    "userId": "user-123",
+    "paymentMethod": "Credit Card",
+    "totalPrice": 6998,
+    "products": [
+      {
+        "productId": "prod-1"
+      },
+      {
+        "productId": "prod-2"
+      }
+    ]
+  }
+  
