@@ -7,9 +7,6 @@ export class CreateProductDto {
     @IsString()
     desc: string
 
-    @IsString()
-    shopId: string
-
     @IsNumber()
     price: number
 
@@ -18,6 +15,9 @@ export class CreateProductDto {
 
     @IsArray()
     size?: string[]
+
+    @IsArray()
+    tags?: string[]
 
     @IsArray()
     picUrl?: string[]

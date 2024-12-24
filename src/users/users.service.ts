@@ -18,8 +18,7 @@ export class UsersService {
 
   findOne(id: string) {
     return this.db.user.findUnique({
-      where:{id},
-      include:{Shop:true}
+      where:{id}
     })
   }
 

@@ -1,0 +1,14 @@
+{
+    "name": "Stylish Sneakers",
+    "desc": "A pair of trendy sneakers perfect for casual outings.",
+    "price": 4999,
+    "colour": ["Red", "White", "Black"],
+    "size": ["7", "8", "9", "10"],
+    "tags":["shoes","men","sale"],
+    "picUrl": [
+      "https://example.com/images/sneaker1.jpg",
+      "https://example.com/images/sneaker2.jpg"
+    ],
+    "isAvalible": true
+  }
+  

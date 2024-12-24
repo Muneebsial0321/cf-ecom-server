@@ -7,16 +7,27 @@ import { PaymentModule } from './payment/payment.module';
 import { UsersModule } from './users/users.module';
 import { MailModule } from './mail/mail.module';
 import { ConfigModule } from "@nestjs/config"
-import { ShopModule } from './shop/shop.module';
+// import { ShopModule } from './shop/shop.module';
 // import { MessagesModule } from './messages/messages.module';
 import { DbModule } from './db/db.module';
 import { ReviewsModule } from './reviews/reviews.module';
-import { RoomsModule } from './rooms/rooms.module';
+// import { RoomsModule } from './rooms/rooms.module';
 import { WishlistModule } from './wishlist/wishlist.module';
 
 @Module({
 
-  imports: [AuthModule, ProductsModule, AdminModule, OrderModule, PaymentModule, UsersModule, MailModule, ConfigModule.forRoot({ isGlobal: true }), ShopModule, DbModule, ReviewsModule, RoomsModule, WishlistModule],
+  imports: [AuthModule,
+    ProductsModule,
+    AdminModule,
+    OrderModule,
+    PaymentModule,
+    UsersModule,
+    MailModule,
+    ConfigModule.forRoot({ isGlobal: true }),
+    DbModule,
+    ReviewsModule,
+    WishlistModule
+  ],
   controllers: [],
   providers: [],
 })
