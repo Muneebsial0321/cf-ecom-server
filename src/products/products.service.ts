@@ -6,6 +6,8 @@ import { DbService } from 'src/db/db.service';
 @Injectable()
 export class ProductsService {
   constructor(private readonly db: DbService) { }
+
+
   create(createProductDto: CreateProductDto) {
     return this.db.product
       .create({
@@ -28,7 +30,7 @@ export class ProductsService {
   update(id: string, updateProductDto: UpdateProductDto) {
     return `This action updates a #${id} product`;
   }
-
+  
   remove(id: string) {
     return this.db.product
       .delete({ where: { id } })
