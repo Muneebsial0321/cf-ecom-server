@@ -14,21 +14,22 @@ model User {
   email         String     @unique
   provider      String
   pId           String
-  otpExpireDate String
-  otp           String
+  role          String?    @default("user")
   // 
   //extras 
   // 
-  password      String
-  role          String
-  picUrl        String
-  picName       String
-  desc          String
-  gender        String
+  otpExpireDate String?
+  otp           String?
+  password      String?
+  picUrl        String?
+  picName       String?
+  desc          String?
+  gender        String?
   Shop          Shop?
   order         Order[]
   createdAt     DateTime   @default(now())
   chatroom      Chatroom[]
+  Wishlist      Wishlist[]
 }
 
 model Admin {
@@ -42,41 +43,38 @@ model Shop {
   no        Int       @default(autoincrement())
   name      String
   desc      String
-  user      User?     @relation(fields: [userId], references: [id])
-  userId    String?   @unique
+  user      User      @relation(fields: [userId], references: [id])
+  userId    String    @unique
   createdAt DateTime  @default(now())
   Product   Product[]
 }
 
 model Product {
-  id        String   @id @default(uuid())
-  no        Int      @default(autoincrement())
-  name      String
-  desc      String
-  shop      Shop     @relation(fields: [shopId], references: [id])
-  shopId    String
-  price     Int
-  createdAt DateTime @default(now())
-}
-
-model Colour {
-  id        Int      @id @default(autoincrement())
-  name      String
-  createdAt DateTime @default(now())
-}
-
-model Sizes {
-  id        Int      @id @default(autoincrement())
-  name      String
-  createdAt DateTime @default(now())
+  id         String    @id @default(uuid())
+  no         Int       @default(autoincrement())
+  name       String
+  desc       String
+  shop       Shop      @relation(fields: [shopId], references: [id])
+  shopId     String
+  price      Int
+  colour     String[]
+  size       String[]
+  picUrl     String[]
+  reviews    Reviews[]
+  isAvalible Boolean   @default(true)
+  createdAt  DateTime  @default(now())
+  Wishlist   Wishlist? @relation(fields: [wishlistId], references: [id])
+  wishlistId String?
 }
 
 model Order {
-  id        String   @id @default(uuid())
-  no        Int      @default(autoincrement())
-  createdAt DateTime @default(now())
-  User      User?    @relation(fields: [userId], references: [id])
-  userId    String?
+  id            String   @id @default(uuid())
+  no            Int      @default(autoincrement())
+  createdAt     DateTime @default(now())
+  User          User     @relation(fields: [userId], references: [id])
+  userId        String
+  paymentMethod String?
+  totalPrice    String?
 }
 
 model Message {
@@ -105,24 +103,36 @@ model Reviews {
   ratings   String
   message   String
   createdAt DateTime @default(now())
+  Product   Product  @relation(fields: [productId], references: [id])
+  productId String
 }
 
 model Wishlist {
-  id        String   @id @default(uuid())
-  no        Int      @default(autoincrement())
-  itemId    String
+  id        String    @id @default(uuid())
+  no        Int       @default(autoincrement())
+  user      User      @relation(fields: [userId], references: [id])
+  products  Product[]
+  createdAt DateTime  @default(now())
   userId    String
-  createdAt DateTime @default(now())
 }
 
 model Storage {
-  id String @id @default(uuid())
-  no Int    @default(autoincrement())
-
+  id        String   @id @default(uuid())
+  no        Int      @default(autoincrement())
   name      String
   url       String
   mimieType String
   type      String
   userId    String
   createdAt DateTime @default(now())
+}
+
+model Jun_User_ChatRoom {
+  id String @id @default(uuid())
+  no Int    @default(autoincrement())
+}
+
+model Jun_Product_order {
+  id String @id @default(uuid())
+  no Int    @default(autoincrement())
 }
