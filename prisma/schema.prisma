@@ -74,11 +74,10 @@ model Order {
   User          User                @relation(fields: [userId], references: [id])
   userId        String
   paymentMethod String?
+  status
   totalPrice    Float?
   products      Jun_Product_Order[]
 }
-
-
 
 model Message {
   id         String   @id @default(uuid())
@@ -136,8 +135,8 @@ model Jun_User_ChatRoom {
 }
 
 model Jun_Product_Order {
-  id        String   @id @default(uuid())
-  no        Int      @default(autoincrement())
+  id        String  @id @default(uuid())
+  no        Int     @default(autoincrement())
   Product   Product @relation(fields: [productId], references: [id])
   productId String
   Order     Order   @relation(fields: [orderId], references: [id])
@@ -147,4 +146,23 @@ model Jun_Product_Order {
 model Jun_Product_WishList {
   id String @id @default(uuid())
   no Int    @default(autoincrement())
+}
+
+// ----------------------->
+// emums
+// ----------------------->
+
+enum User_Role {
+  admin
+  buyer
+  subAdmin
+}
+
+enum Order_Status {
+ pending
+ processing
+ refunding
+ refunded
+ rejecting
+ delivered
 }
