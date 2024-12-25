@@ -1,26 +1,41 @@
 import { Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { DbService } from 'src/db/db.service';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class OrderService {
+
+  constructor(private readonly db: DbService) { }
+
   create(createOrderDto: CreateOrderDto) {
-    return 'This action adds a new order';
+
+    return this.db.order.create({
+      data: {
+        paymentMethod: createOrderDto.paymentMethod,
+        totalPrice: createOrderDto.totalPrice,
+        // for jun-table data
+        User: { connect: { id: createOrderDto.userId } }, //connects to user in the table
+        products: { create: createOrderDto.products } // adds products and also make a jun record
+
+      }
+    })
   }
 
   findAll() {
-    return `This action returns all order`;
+    return this.db.order.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  findOne(id: string) {
+    return this.db.order.findUnique({ where: { id } })
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
+  update(id: string, updateOrderDto: UpdateOrderDto) {
     return `This action updates a #${id} order`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} order`;
+  remove(id: string) {
+    return this.db.order.delete({ where: { id } });
   }
 }

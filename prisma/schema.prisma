@@ -129,6 +129,10 @@ model Storage {
   createdAt DateTime @default(now())
 }
 
+// ----------------------->
+// Junction tabels
+// ----------------------->
+
 model Jun_User_ChatRoom {
   id String @id @default(uuid())
   no Int    @default(autoincrement())
@@ -141,6 +145,9 @@ model Jun_Product_Order {
   productId String
   Order     Order   @relation(fields: [orderId], references: [id])
   orderId   String
+  quantity  Int
+  colour    String?
+  size      String?
 }
 
 model Jun_Product_WishList {

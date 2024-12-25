@@ -1,4 +1,5 @@
-import { IsArray, IsNumber, IsString } from "class-validator"
+import { Type } from "class-transformer"
+import { IsArray, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator"
 
 export class CreateOrderDto {
     @IsString()
@@ -6,10 +7,29 @@ export class CreateOrderDto {
 
     @IsString()
     paymentMethod: string
-   
+
     @IsNumber()
     totalPrice: number
 
     @IsArray()
-    products: Array<{ productId: string }>
+    @ValidateNested({ each: true })
+    @Type(() => productDto)
+    products: productDto[]
+}
+
+class productDto {
+    @IsString()
+    productId: string
+    
+    @IsOptional()
+    @IsString()
+    colour?: string
+    
+    @IsOptional()
+    @IsString()
+    size?: string
+
+    @IsNumber()
+    quantity: number
+
 }
