@@ -28,7 +28,13 @@ export class OrderService {
   }
 
   findOne(id: string) {
-    return this.db.order.findUnique({ where: { id } })
+    return this.db.order.findUnique({
+       where: { id } ,
+       include:{
+        User:true,
+        products:true
+       }
+      })
   }
 
   update(id: string, updateOrderDto: UpdateOrderDto) {
