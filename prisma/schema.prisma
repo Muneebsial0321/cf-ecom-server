@@ -9,7 +9,6 @@ datasource db {
 
 model User {
   id            String     @id @default(uuid())
-  no            Int        @default(autoincrement())
   name          String
   email         String     @unique
   provider      String
@@ -27,6 +26,7 @@ model User {
   chatroom      Chatroom[]
   Wishlist      Wishlist[]
   reels         Reels[]
+  Reviews       Reviews[]
 }
 
 model Admin {
@@ -50,8 +50,8 @@ model Product {
   brandId    String?
   catagory   Catagory            @relation(fields: [catagoryId], references: [id])
   catagoryId String
-  reviews    Reviews[]
   reels      Reels[]
+  reviews    Reviews[]
   order      Jun_Product_Order[]
   createdAt  DateTime            @default(now())
 }
@@ -89,13 +89,12 @@ model Chatroom {
 model Reviews {
   id        String   @id @default(uuid())
   no        Int      @default(autoincrement())
-  itemId    String
-  userId    String
-  ratings   String
   message   String
   createdAt DateTime @default(now())
   Product   Product  @relation(fields: [productId], references: [id])
   productId String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
 }
 
 model Wishlist {

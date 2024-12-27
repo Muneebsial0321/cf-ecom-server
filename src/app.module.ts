@@ -16,6 +16,7 @@ import { WishlistModule } from './wishlist/wishlist.module';
 import { BrandModule } from './brand/brand.module';
 import { CategoryModule } from './category/category.module';
 import { ReelsModule } from './reels/reels.module';
+import { ReplysModule } from './replys/replys.module';
 
 @Module({
 
@@ -32,7 +33,8 @@ import { ReelsModule } from './reels/reels.module';
     WishlistModule,
     BrandModule,
     CategoryModule,
-    ReelsModule
+    ReelsModule,
+    ReplysModule
   ],
   controllers: [],
   providers: [],
