@@ -40,4 +40,11 @@ export class AuthService {
   }
 
 
+  async googleAuth(user: { name: string, id: string, email: string }) {
+    const payload = { id: user.id }
+    const authToken = this.jwt.sign(payload)
+    return { authToken }
+  }
+
+
 }
