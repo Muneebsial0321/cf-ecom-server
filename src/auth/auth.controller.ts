@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } fro
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { RegisterAuthDto } from './dto/register-auth';
+import { LoginAuthDto } from './dto/login-auth';
 
 @Controller('auth')
 export class AuthController {
@@ -17,6 +18,11 @@ export class AuthController {
 
   }
 
+
+  @Post('login')
+  login(@Body() loginDto:LoginAuthDto){
+    return this.authService.login(loginDto)
+  }
 
 
   // google auth 
