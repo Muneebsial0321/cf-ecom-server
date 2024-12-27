@@ -11,9 +11,9 @@ export class AuthController {
 
   // local auth
 
-  @Post()
-  regeister(registerDto:RegisterAuthDto){
-    // this.authService.
+  @Post('register')
+  register(@Body() registerDto:RegisterAuthDto){
+   return this.authService.register(registerDto)
 
   }
 

@@ -6,7 +6,12 @@ export class RegisterAuthDto {
 
     @IsEmail()
     email:string
-
-    @IsStrongPassword()
+ 
+    @IsString()
     password:string
+
+    @IsString()
+    provider:string = "local"
+
+
 }
