@@ -13,6 +13,9 @@ import { DbModule } from './db/db.module';
 import { ReviewsModule } from './reviews/reviews.module';
 // import { RoomsModule } from './rooms/rooms.module';
 import { WishlistModule } from './wishlist/wishlist.module';
+import { BrandModule } from './brand/brand.module';
+import { CategoryModule } from './category/category.module';
+import { ReelsModule } from './reels/reels.module';
 
 @Module({
 
@@ -26,7 +29,10 @@ import { WishlistModule } from './wishlist/wishlist.module';
     ConfigModule.forRoot({ isGlobal: true }),
     DbModule,
     ReviewsModule,
-    WishlistModule
+    WishlistModule,
+    BrandModule,
+    CategoryModule,
+    ReelsModule
   ],
   controllers: [],
   providers: [],

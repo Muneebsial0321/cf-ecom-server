@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("DATABASE_URL_AIVEN")
 }
 
 model User {
@@ -15,9 +15,6 @@ model User {
   provider      String
   pId           String?
   role          String?    @default("user")
-  // 
-  //extras 
-  // 
   otpExpireDate String?
   otp           String?
   password      String?
@@ -25,11 +22,11 @@ model User {
   picName       String?
   desc          String?
   gender        String?
-  // Shop          Shop?
   order         Order[]
   createdAt     DateTime   @default(now())
   chatroom      Chatroom[]
   Wishlist      Wishlist[]
+  reels         Reels[]
 }
 
 model Admin {
@@ -38,32 +35,24 @@ model Admin {
   createdAt DateTime @default(now())
 }
 
-// model Shop {
-//   id        String    @id @default(uuid())
-//   no        Int       @default(autoincrement())
-//   name      String
-//   desc      String
-//   user      User      @relation(fields: [userId], references: [id])
-//   userId    String    @unique
-//   createdAt DateTime  @default(now())
-//   Product   Product[]
-// }
-
 model Product {
   id         String              @id @default(uuid())
   no         Int                 @default(autoincrement())
   name       String
   desc       String
-  // shop       Shop      @relation(fields: [shopId], references: [id])
-  // shopId     String
   price      Int
   colour     String[]
   size       String[]
   picUrl     String[]
   tags       String[]
-  reviews    Reviews[]
-  order      Jun_Product_Order[]
   isAvalible Boolean             @default(true)
+  brand      Brand?              @relation(fields: [brandId], references: [id])
+  brandId    String?
+  catagory   Catagory            @relation(fields: [catagoryId], references: [id])
+  catagoryId String
+  reviews    Reviews[]
+  reels      Reels[]
+  order      Jun_Product_Order[]
   createdAt  DateTime            @default(now())
 }
 
@@ -116,6 +105,30 @@ model Wishlist {
   // products  Product[]
   createdAt DateTime @default(now())
   userId    String
+}
+
+model Brand {
+  id      String    @id @default(uuid())
+  name    String
+  desc    String
+  picUrl  String
+  Product Product[]
+}
+
+model Catagory {
+  id      String    @id @default(uuid())
+  name    String
+  Product Product[]
+}
+
+model Reels {
+  id        String   @id @default(uuid())
+  desc      String
+  videoUrl  String
+  Product   Product? @relation(fields: [productId], references: [id])
+  productId String?
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
 }
 
 model Storage {
@@ -173,3 +186,14 @@ enum Order_Status {
   rejecting
   delivered
 }
+
+// model Shop {
+//   id        String    @id @default(uuid())
+//   no        Int       @default(autoincrement())
+//   name      String
+//   desc      String
+//   user      User      @relation(fields: [userId], references: [id])
+//   userId    String    @unique
+//   createdAt DateTime  @default(now())
+//   Product   Product[]
+// }
