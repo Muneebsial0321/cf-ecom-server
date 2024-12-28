@@ -7,6 +7,12 @@ export class CreateProductDto {
     @IsString()
     desc: string
 
+    @IsString()
+    categoryId: string
+
+    @IsString()
+    brandId: string
+
     @IsNumber()
     price: number
 

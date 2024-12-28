@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { RegisterAuthDto } from './dto/register-auth';
 import { Auth } from './auth.interface';
 import { JwtService } from '@nestjs/jwt';
@@ -18,7 +18,7 @@ export class AuthService {
       where: { email: registerDto.email }
     })
 
-    if (user) return { "message": "User already exist" }
+    if (user) throw new ConflictException("User already exists")
 
     const newUser = await this.db.user.create({ data: registerDto })
     const authToken = this.jwt.sign({ id: newUser.id })
@@ -32,8 +32,8 @@ export class AuthService {
       where: { email: loginDto.email }
     })
 
-    if (!user) return { "message": "User does not exist" }
-    if (user.password !== loginDto.password) return { message: "invalid credentials" }
+    if (!user) throw new NotFoundException("User does not exist")
+    if (user.password !== loginDto.password) throw new UnauthorizedException('Invalid credentials');
 
     const authToken = this.jwt.sign({ id: user.id })
     return { authToken }
@@ -41,9 +41,8 @@ export class AuthService {
 
 
   async googleAuth(user: { name: string, id: string, email: string }) {
-    const payload = { id: user.id }
-    const authToken = this.jwt.sign(payload)
-    return { authToken }
+    const authToken = this.jwt.sign({ id: user.id })
+    return `${process.env.FRONTEND_URL}/auth/bording?authtoken=${authToken}`
   }
 
 
