@@ -1,26 +1,36 @@
-import { Injectable } from '@nestjs/common';
-import { CreateMailDto } from './dto/create-mail.dto';
-import { UpdateMailDto } from './dto/update-mail.dto';
+import { Injectable, Logger } from '@nestjs/common';
+import { MailerService } from '@nestjs-modules/mailer';
+import { welcome, orderPlaced, orderUpdate, otpSend } from './templates';
+
+
+export enum Mail {
+  WELCOME = 'welcome',
+  ORDER_PLACED = 'orderPlaced',
+  ORDER_UPDATE = 'orderUpdate',
+  OTP_SEND = 'otpSend',
+}
+
 
 @Injectable()
 export class MailService {
-  create(createMailDto: CreateMailDto) {
-    return 'This action adds a new mail';
-  }
 
-  findAll() {
-    return `This action returns all mail`;
+  private readonly Mails = {
+    [Mail.WELCOME]: () => welcome(),
+    [Mail.ORDER_PLACED]: () => orderPlaced(),
+    [Mail.ORDER_UPDATE]: () => orderUpdate(),
+    [Mail.OTP_SEND]: () => otpSend(),
   }
+  private readonly logger = new Logger(MailService.name);
+  constructor(private readonly mail: MailerService) { }
 
-  findOne(id: number) {
-    return `This action returns a #${id} mail`;
-  }
 
-  update(id: number, updateMailDto: UpdateMailDto) {
-    return `This action updates a #${id} mail`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} mail`;
+  async Email(payload: { mail: Mail, to: string, subject: string }) {
+    try {
+      const { mail, to, subject } = payload
+      await this.mail.sendMail({ to, subject, html: this.Mails[mail]() })
+      this.logger.log("Mail was Sent")
+    } catch (error) {
+      this.logger.error("Error sending in mail", error)
+    }
   }
 }

@@ -1,9 +1,24 @@
 import { Module } from '@nestjs/common';
 import { MailService } from './mail.service';
 import { MailController } from './mail.controller';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
-  controllers: [MailController],
+  imports: [MailerModule.forRoot({
+    transport: {
+      host: 'smtp.gmail.com',
+      secure: false,
+      port: 587,
+      auth: {
+        user: process.env.ADMIN_EMAIL,
+        pass: process.env.ADMIN_EMAIL_PASSWORD,
+      },
+      tls: {
+        rejectUnauthorized: false // Bypass SSL verification if necessary (for testing)
+      },
+    },
+  })],
+  // controllers: [MailController],
   providers: [MailService],
 })
-export class MailModule {}
+export class MailModule { }
