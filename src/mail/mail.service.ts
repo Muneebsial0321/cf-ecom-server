@@ -26,6 +26,7 @@ export class MailService {
 
   async Send(payload: { mail: Mail, to: string, subject: string }) {
     try {
+      console.log("Sending mail ----->")
       const { mail, to, subject } = payload
       await this.mail.sendMail({ to, subject, html: this.Mails[mail]() })
       this.logger.log("Mail was Sent")

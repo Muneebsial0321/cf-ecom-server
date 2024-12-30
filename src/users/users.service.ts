@@ -29,7 +29,8 @@ export class UsersService {
    })
   }
 
-  remove(id: string) {
-    this.db.user.delete({where:{id}})
+  async remove(id: string) {
+   await  this.db.user.delete({where:{id}})
+   return {message:"user has been deleted"}
   }
 }
