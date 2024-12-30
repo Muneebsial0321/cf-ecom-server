@@ -7,10 +7,10 @@ export class MailController {
 
   @Get()
   sendMail(){
-   return this.mailService.Email({
-    to:"muneeburrehmansial0321@gmail.com",
-    subject:"some subject",
-    mail:Mail.ORDER_PLACED
-   })
+  //  return this.mailService.Email({
+  //   to:"muneeburrehmansial0321@gmail.com",
+  //   subject:"some subject",
+  //   mail:Mail.ORDER_PLACED
+  //  })
   }
 }

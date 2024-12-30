@@ -5,12 +5,15 @@ import { GoogleStrategy } from './strategy/google.strategy';
 import { OAuth } from './strategy/validate';
 import { JwtModule } from '@nestjs/jwt';
 
+import { MailModule } from 'src/mail/mail.module';
+
 @Module({
   imports: [
     JwtModule.register({
       secret: process.env.JWT_AUTH_SECRET,
       signOptions: { expiresIn: "7d" }
-    })
+    }),
+    MailModule
   ],
   controllers: [AuthController],
   providers: [AuthService, GoogleStrategy, OAuth],

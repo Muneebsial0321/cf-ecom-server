@@ -10,21 +10,21 @@ export enum Mail {
   OTP_SEND = 'otpSend',
 }
 
-
 @Injectable()
 export class MailService {
 
+  private readonly logger = new Logger(MailService.name);
   private readonly Mails = {
     [Mail.WELCOME]: () => welcome(),
     [Mail.ORDER_PLACED]: () => orderPlaced(),
     [Mail.ORDER_UPDATE]: () => orderUpdate(),
     [Mail.OTP_SEND]: () => otpSend(),
   }
-  private readonly logger = new Logger(MailService.name);
+
   constructor(private readonly mail: MailerService) { }
 
 
-  async Email(payload: { mail: Mail, to: string, subject: string }) {
+  async Send(payload: { mail: Mail, to: string, subject: string }) {
     try {
       const { mail, to, subject } = payload
       await this.mail.sendMail({ to, subject, html: this.Mails[mail]() })

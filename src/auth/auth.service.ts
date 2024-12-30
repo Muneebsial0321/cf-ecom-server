@@ -1,13 +1,14 @@
 import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { RegisterAuthDto } from './dto/register-auth';
-import { Auth } from './auth.interface';
 import { JwtService } from '@nestjs/jwt';
 import { DbService } from 'src/db/db.service';
 import { LoginAuthDto } from './dto/login-auth';
+import { Mail, MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class AuthService {
   constructor(
+    private readonly mail: MailService,
     private readonly jwt: JwtService,
     private readonly db: DbService,
   ) { }
@@ -21,6 +22,11 @@ export class AuthService {
     if (user) throw new ConflictException("User already exists")
 
     const newUser = await this.db.user.create({ data: registerDto })
+    await this.mail.Send({
+      to: registerDto.email,
+      subject: "Welcome to Bazzar",
+      mail: Mail.WELCOME
+    })
     const authToken = this.jwt.sign({ id: newUser.id })
     return { authToken }
   }
