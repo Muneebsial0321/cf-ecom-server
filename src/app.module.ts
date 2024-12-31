@@ -17,6 +17,7 @@ import { BrandModule } from './brand/brand.module';
 import { CategoryModule } from './category/category.module';
 import { ReelsModule } from './reels/reels.module';
 import { ReplysModule } from './replys/replys.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
 
@@ -34,7 +35,8 @@ import { ReplysModule } from './replys/replys.module';
     BrandModule,
     CategoryModule,
     ReelsModule,
-    ReplysModule
+    ReplysModule,
+    UploadModule
   ],
   controllers: [],
   providers: [],
