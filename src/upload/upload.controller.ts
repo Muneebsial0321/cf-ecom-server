@@ -1,4 +1,4 @@
-import { Controller, Get, HttpException, HttpStatus, Post, UploadedFile, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post, UploadedFile, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { UploadService } from './upload.service';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 
@@ -21,23 +21,26 @@ export class UploadController {
       limits: { fileSize: 100 * 1024 * 1024 }, // Max file size of 5MB
     }),
   )
-  async uploadFile(@UploadedFile() file: Express.Multer.File) {
+  async uploadFile(@UploadedFile() file: Express.Multer.File,
+  @Body() req
+) {
     console.log("in controller")
     if (!file) {
       throw new HttpException('File is required', HttpStatus.BAD_REQUEST);
     }
 
     try {
-      console.log({file})
+      // console.log({file})
+      console.log({req})
       // Call the uploadFile method from S3 service
-      const payload = await this.uploadService.singleUpload(file);
-      console.log({payload})
+      // const payload = await this.uploadService.singleUpload(file);
+      // console.log({payload})
 
       // Return the response with the file URL and name
       return {
         message: 'File uploaded successfully',
-        fileName: payload.fileName,
-        fileUrl: payload.fileUrl,
+        // fileName: payload.fileName,
+        // fileUrl: payload.fileUrl,
       };
     } catch (error) {
       // Handle errors (e.g., network or permission issues)
@@ -47,7 +50,9 @@ export class UploadController {
 
   @Post('multiple')
     @UseInterceptors(FilesInterceptor('files', 10)) // Allow up to 10 files
-    async uploadMultipleFiles(@UploadedFiles() files: Express.Multer.File[]) {
+    async uploadMultipleFiles(
+      @UploadedFiles() files: Express.Multer.File[]){
+      console.log("in controller")
         const result = await this.uploadService.manyUpload(files);
         return {
             message: 'Files uploaded successfully!',
@@ -55,4 +60,4 @@ export class UploadController {
         };
     }
 }
-}
+

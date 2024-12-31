@@ -48,8 +48,8 @@ model Product {
   isAvalible Boolean             @default(true)
   brand      Brand?              @relation(fields: [brandId], references: [id])
   brandId    String?
-  catagory   Catagory            @relation(fields: [catagoryId], references: [id])
-  catagoryId String
+  catagory   Catagory?            @relation(fields: [catagoryId], references: [id])
+  catagoryId String?
   reels      Reels[]
   reviews    Reviews[]
   order      Jun_Product_Order[]
