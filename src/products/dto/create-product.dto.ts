@@ -60,4 +60,5 @@ export class CreateProductDto {
     @IsOptional()
     @IsBoolean()
     isAvalible?: boolean
+
 }

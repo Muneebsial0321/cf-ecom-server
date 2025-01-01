@@ -6,18 +6,18 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
-    forbidNonWhitelisted:true,
-    
+    forbidNonWhitelisted: true,
+
   }))
 
 
-  const ORIGINS: Array<string> = [process.env.FRONTEND_URL]
+  const ORIGINS: Array<string> = [process.env.FRONTEND_URL, process.env.FRONTEND_URL_PROD]
 
   app.enableCors({
     origin: ORIGINS,
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: 'Content-Type, Accept, Authorization', 
+    allowedHeaders: 'Content-Type, Accept, Authorization,',
   });
 
 

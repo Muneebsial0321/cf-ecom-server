@@ -3,8 +3,9 @@ import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Prisma } from '@prisma/client';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { UploadService } from 'src/upload/upload.service';
+import { plainToInstance } from 'class-transformer';
 
 @Controller('products')
 export class ProductsController {
@@ -18,20 +19,13 @@ export class ProductsController {
   // extract images and then pass them....
   @Post()
   @UseInterceptors(FilesInterceptor('images', 10))
-  async create(@UploadedFiles() images: Express.Multer.File[],@Body() product: CreateProductDto) {
-    
-    // data santization
-    const {colour,size,tags,price} = product
+  async create(@UploadedFiles() images: Express.Multer.File[],@Body() body: any) {
 
-    // if(typeof price == 'string') product.price = +product.price
-    // if(typeof colour == 'string') product.colour = JSON.parse(colour)
-    // if(typeof size == 'string') product.size = JSON.parse(size)
-    // if(typeof tags == 'string') product.tags = JSON.parse(tags)
-
-
-    product.picUrl = await this.upload.manyUpload(images)
-    console.log({after:product})
-    // return product
+    // console.log({images})
+    // console.log({body})
+    body.picUrl = await this.upload.manyUpload(images)
+    const product = plainToInstance(CreateProductDto, {...body});
+    console.log({body,product})
     return this.productsService.create(product);
   }
 

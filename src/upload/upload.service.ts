@@ -50,6 +50,7 @@ export class UploadService {
     async manyUpload(files: Express.Multer.File[]): Promise<Array<string>> {
         try {
             console.log("Many Uploads-------------->")
+            console.log({files})
             const uploadPromises = files.map(async (file) => {
                 const key = `${Date.now()}-${file.originalname}`;
 

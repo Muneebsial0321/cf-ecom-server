@@ -15,9 +15,15 @@ export class OrderService {
       data: {
         paymentMethod: createOrderDto.paymentMethod,
         totalPrice: createOrderDto.totalPrice,
-        // for jun-table data
-        User: { connect: { id: createOrderDto.userId } }, //connects to user in the table
-        products: { create: createOrderDto.products } // adds products and also make a jun record
+        User: { connect: { id: createOrderDto.userId } },
+        products: {
+          create: createOrderDto.products.map(product => ({
+            Product: { connect: { id: product.productId } }, 
+            quantity: product.quantity, 
+            ...(product.colour ? { colour: product.colour } : {}), 
+            ...(product.size ? { size: product.size } : {}), 
+          })),
+        },
 
       }
     })
@@ -29,12 +35,12 @@ export class OrderService {
 
   findOne(id: string) {
     return this.db.order.findUnique({
-       where: { id } ,
-       include:{
-        User:true,
-        products:true
-       }
-      })
+      where: { id },
+      include: {
+        User: true,
+        products: true
+      }
+    })
   }
 
   update(id: string, updateOrderDto: UpdateOrderDto) {
