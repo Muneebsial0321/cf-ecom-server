@@ -1,15 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { ReelsService } from './reels.service';
 import { CreateReelDto } from './dto/create-reel.dto';
-import { UpdateReelDto } from './dto/update-reel.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { plainToInstance } from 'class-transformer';
+import { UploadService } from 'src/upload/upload.service';
 
 @Controller('reels')
 export class ReelsController {
-  constructor(private readonly reelsService: ReelsService) {}
+  constructor(
+    private readonly reelsService: ReelsService,
+    private readonly upload: UploadService
 
+  ) { }
+
+
+  @UseInterceptors(FileInterceptor('video'))
   @Post()
-  create(@Body() createReelDto: CreateReelDto) {
-    return this.reelsService.create(createReelDto);
+  async create(
+    @UploadedFile() video: Express.Multer.File,
+    @Body() req: any) {
+    const videoUrl = await this.upload.singleUpload(video)
+    const reel = plainToInstance(CreateReelDto, { ...req,videoUrl })
+    return this.reelsService.create(reel);
   }
 
   @Get()
@@ -19,12 +31,7 @@ export class ReelsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.reelsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateReelDto: UpdateReelDto) {
-    return this.reelsService.update(+id, updateReelDto);
+    return this.reelsService.findOne(id);
   }
 
   @Delete(':id')

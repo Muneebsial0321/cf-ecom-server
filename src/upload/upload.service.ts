@@ -1,4 +1,4 @@
-import { Injectable} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { S3Client, PutObjectCommand, ObjectCannedACL } from '@aws-sdk/client-s3';
 
 @Injectable()
@@ -19,9 +19,9 @@ export class UploadService {
 
 
 
-    async singleUpload(file: Express.Multer.File): Promise<{ fileName: string, fileUrl: string }> {
+    async singleUpload(file: Express.Multer.File): Promise<string> {
         try {
-            console.log("recevied payload data")
+            console.log("Single Upload-------------->")
             const key = `${Date.now()}-${file.originalname}`;
 
             const uploadParams = {
@@ -32,15 +32,10 @@ export class UploadService {
                 ACL: 'public-read' as ObjectCannedACL
             };
 
-            console.log("sending to s3")
             await this.s3.send(new PutObjectCommand(uploadParams));
-
-            const payload = {
-                fileName: key,
-                fileUrl: `https://${this.bucketName}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`
-            }
-            console.log({ payload })
-            return payload
+            console.log("Uploads send to S3-------------->")
+            return `https://${this.bucketName}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`
+        
         } catch (error) {
             console.log("file upload Fail", error)
 
@@ -50,7 +45,6 @@ export class UploadService {
     async manyUpload(files: Express.Multer.File[]): Promise<Array<string>> {
         try {
             console.log("Many Uploads-------------->")
-            console.log({files})
             const uploadPromises = files.map(async (file) => {
                 const key = `${Date.now()}-${file.originalname}`;
 
@@ -66,7 +60,7 @@ export class UploadService {
                 console.log("Uploads send to S3-------------->")
 
                 return `https://${this.bucketName}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`
-                
+
             });
 
             return Promise.all(uploadPromises);

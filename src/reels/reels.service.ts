@@ -1,23 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { CreateReelDto } from './dto/create-reel.dto';
-import { UpdateReelDto } from './dto/update-reel.dto';
+import { DbService } from 'src/db/db.service';
 
 @Injectable()
 export class ReelsService {
+
+  constructor(private readonly db: DbService) { }
   create(createReelDto: CreateReelDto) {
-    return 'This action adds a new reel';
+    return this.db.reels.create({
+      data: {
+        User: { connect: { id: createReelDto.userId } },
+        Product: { connect: { id: createReelDto.productId } },
+        desc: createReelDto.desc,
+        videoUrl: createReelDto.videoUrl
+      }
+    })
   }
 
   findAll() {
-    return `This action returns all reels`;
+    return this.db.reels.findMany()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} reel`;
-  }
-
-  update(id: number, updateReelDto: UpdateReelDto) {
-    return `This action updates a #${id} reel`;
+  findOne(id: string) {
+    return this.db.reels.findUnique({ where: { id }, include: { User: true, Product: true } })
   }
 
   remove(id: number) {
