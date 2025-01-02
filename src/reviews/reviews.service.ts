@@ -1,21 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { CreateReviewDto } from './dto/create-review.dto';
+import { DbService } from 'src/db/db.service';
 
 @Injectable()
 export class ReviewsService {
-  create(createReviewDto: CreateReviewDto) {
-    return 'This action adds a new review';
+  constructor(private readonly db: DbService) { }
+
+  create(review: CreateReviewDto) {
+    return this.db.reviews.create({ data: review })
   }
 
   findAll() {
-    return `This action returns all reviews`;
+    return this.db.reviews.findMany()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} review`;
+  findOne(id: string) {
+    return this.db.reviews.findUnique({ where: { id }, include: { user: true } })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} review`;
+  remove(id: string) {
+    return this.db.reviews.delete({where:{id}})
   }
 }

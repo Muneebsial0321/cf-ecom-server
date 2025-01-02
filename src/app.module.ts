@@ -18,6 +18,7 @@ import { CategoryModule } from './category/category.module';
 import { ReelsModule } from './reels/reels.module';
 import { ReplysModule } from './replys/replys.module';
 import { UploadModule } from './upload/upload.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
 
@@ -36,7 +37,8 @@ import { UploadModule } from './upload/upload.module';
     CategoryModule,
     ReelsModule,
     ReplysModule,
-    UploadModule
+    UploadModule,
+    CommentsModule
   ],
   controllers: [],
   providers: [],

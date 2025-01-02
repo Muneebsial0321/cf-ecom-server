@@ -25,7 +25,7 @@ model User {
   createdAt     DateTime   @default(now())
   chatroom      Chatroom[]
   Wishlist      Wishlist[]
-  reels         Reels[]
+  reels         Reel[]
   Reviews       Reviews[]
   comments      Comments[]
 }
@@ -51,7 +51,7 @@ model Product {
   brandId    String?
   catagory   Catagory?           @relation(fields: [catagoryId], references: [id])
   catagoryId String?
-  reels      Reels[]
+  reels      Reel[]
   reviews    Reviews[]
   order      Jun_Product_Order[]
   createdAt  DateTime            @default(now())
@@ -118,10 +118,12 @@ model Brand {
 model Catagory {
   id      String    @id @default(uuid())
   name    String
+  picUrl  String?
+  icon    String?
   Product Product[]
 }
 
-model Reels {
+model Reel {
   id        String     @id @default(uuid())
   desc      String
   videoUrl  String
@@ -146,8 +148,8 @@ model Storage {
 model Comments {
   id      String  @id @default(uuid())
   message String
-  Reels   Reels?  @relation(fields: [reelsId], references: [id])
-  reelsId String?
+  Reels   Reel?   @relation(fields: [reelId], references: [id])
+  reelId  String?
   User    User?   @relation(fields: [userId], references: [id])
   userId  String?
 }

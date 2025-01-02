@@ -1,12 +1,12 @@
 import { IsString } from "class-validator"
 
-export class CreateReviewDto {
+export class CreateCommentDto {
     @IsString()
-    userId:string
+    message :string
     
     @IsString()
-    productId:string
+    reelId :string
     
     @IsString()
-    message:string
+    userId  :string
 }
