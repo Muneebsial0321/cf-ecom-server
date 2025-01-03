@@ -11,11 +11,11 @@ async function bootstrap() {
   }))
 
 
-  const ORIGINS: Array<string> = [process.env.FRONTEND_URL, process.env.FRONTEND_URL_PROD]
+  // const ORIGINS: Array<string> = [process.env.FRONTEND_URL, process.env.FRONTEND_URL_PROD,process.env.ADMIN_URL]
 
   app.enableCors({
-    origin: ORIGINS,
-    credentials: true,
+    origin: "*",
+    // credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type, Accept, Authorization,',
   });
