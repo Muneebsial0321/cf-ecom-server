@@ -1,23 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCoinDto } from './dto/create-coin.dto';
-import { UpdateCoinDto } from './dto/update-coin.dto';
+import { DbService } from 'src/db/db.service';
+
 
 @Injectable()
 export class CoinsService {
-  create(createCoinDto: CreateCoinDto) {
-    return 'This action adds a new coin';
-  }
+  constructor(private readonly db: DbService) { }
 
   findAll() {
-    return `This action returns all coins`;
+    return this.db.coins.findMany({ include: { User: { select: { name: true, email: true } } } })
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} coin`;
-  }
-
-  update(id: number, updateCoinDto: UpdateCoinDto) {
-    return `This action updates a #${id} coin`;
+  findOne(id: string) {
+    return this.db.coins.findUnique({where:{id},include:{User:true}})
   }
 
   remove(id: number) {

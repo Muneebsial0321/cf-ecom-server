@@ -20,7 +20,7 @@ export class OAuth {
     }
 
     console.log("Google--------> signup")
-    user = await this.db.user.create({ data, select: { id: true, name: true, email: true } })
+    user = await this.db.user.create({ data:{...data,coins:{create:{value:10.0}}}, select: { id: true, name: true, email: true } })
     await this.mail.Send({
       to: email,
       subject: "Welcome to Bazzar",

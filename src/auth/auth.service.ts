@@ -21,7 +21,8 @@ export class AuthService {
 
     if (user) throw new ConflictException("User already exists")
 
-    const newUser = await this.db.user.create({ data: registerDto })
+    const newUser = await this.db.user.create({data:{...registerDto,coins:{create:{value:10.0}}}
+     })
     await this.mail.Send({
       to: registerDto.email,
       subject: "Welcome to Bazzar",
