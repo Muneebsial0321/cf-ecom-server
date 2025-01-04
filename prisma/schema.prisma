@@ -28,6 +28,7 @@ model User {
   reels         Reel[]
   Reviews       Reviews[]
   comments      Comments[]
+  Coins         Coins?
 }
 
 model Admin {
@@ -152,6 +153,13 @@ model Comments {
   reelId  String?
   User    User?   @relation(fields: [userId], references: [id])
   userId  String?
+}
+
+model Coins {
+  id     String  @id @default(uuid())
+  value  Float
+  User   User?   @relation(fields: [userId], references: [id])
+  userId String? @unique
 }
 
 // ----------------------->

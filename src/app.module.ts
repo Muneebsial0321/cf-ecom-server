@@ -19,6 +19,7 @@ import { ReelsModule } from './reels/reels.module';
 import { ReplysModule } from './replys/replys.module';
 import { UploadModule } from './upload/upload.module';
 import { CommentsModule } from './comments/comments.module';
+import { CoinsModule } from './coins/coins.module';
 
 @Module({
 
@@ -38,7 +39,8 @@ import { CommentsModule } from './comments/comments.module';
     ReelsModule,
     ReplysModule,
     UploadModule,
-    CommentsModule
+    CommentsModule,
+    CoinsModule
   ],
   controllers: [],
   providers: [],
