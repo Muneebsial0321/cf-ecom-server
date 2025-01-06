@@ -6,6 +6,7 @@ import { OAuth } from './strategy/validate';
 import { JwtModule } from '@nestjs/jwt';
 
 import { MailModule } from 'src/mail/mail.module';
+import { CoinsModule } from 'src/coins/coins.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { MailModule } from 'src/mail/mail.module';
       secret: process.env.JWT_AUTH_SECRET,
       signOptions: { expiresIn: "7d" }
     }),
-    MailModule
+    MailModule,
+    CoinsModule
   ],
   controllers: [AuthController],
   providers: [AuthService, GoogleStrategy, OAuth],

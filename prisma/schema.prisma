@@ -156,17 +156,28 @@ model Comments {
 }
 
 model Coins {
-  id     String  @id @default(uuid())
+  id     String       @id @default(uuid())
   value  Int
-  User   User?   @relation(fields: [userId], references: [id])
+  desc   String?
+  User   User?        @relation(fields: [userId], references: [id])
   userId String?
+  type   Transaction? @default(earn)
 }
 
 model Points {
   id    Int     @id @default(autoincrement())
-  name  String @unique
+  name  String  @unique
   desc  String?
   value Int
+}
+
+model CoinMileStone {
+  id        String   @id @default(uuid())
+  objType   String
+  objId     String
+  mileStone Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // ----------------------->
@@ -214,13 +225,7 @@ enum Order_Status {
   delivered
 }
 
-// model Shop {
-//   id        String    @id @default(uuid())
-//   no        Int       @default(autoincrement())
-//   name      String
-//   desc      String
-//   user      User      @relation(fields: [userId], references: [id])
-//   userId    String    @unique
-//   createdAt DateTime  @default(now())
-//   Product   Product[]
-// }
+enum Transaction {
+  earn
+  spend
+}

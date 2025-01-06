@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { DbService } from 'src/db/db.service';
 import { LoginAuthDto } from './dto/login-auth';
 import { Mail, MailService } from 'src/mail/mail.service';
+import { CoinFactory, PointsEnum, TransactionTypeEnum } from 'src/coins/coinFactory.service';
 
 @Injectable()
 export class AuthService {
@@ -11,6 +12,7 @@ export class AuthService {
     private readonly mail: MailService,
     private readonly jwt: JwtService,
     private readonly db: DbService,
+    private readonly coin: CoinFactory,
   ) { }
 
   async register(registerDto: RegisterAuthDto) {
@@ -21,13 +23,18 @@ export class AuthService {
 
     if (user) throw new ConflictException("User already exists")
 
-    const newUser = await this.db.user.create({data:{...registerDto,coins:{create:{value:10.0}}}
-     })
+    const newUser = await this.db.user.create({
+      data: { ...registerDto }
+    })
+
+    await this.coin.Transaction(newUser.id, PointsEnum.signup,TransactionTypeEnum.earn,"signup coin")
+
     await this.mail.Send({
       to: registerDto.email,
       subject: "Welcome to Bazzar",
       mail: Mail.WELCOME
     })
+
     const authToken = this.jwt.sign({ id: newUser.id })
     return { authToken }
   }

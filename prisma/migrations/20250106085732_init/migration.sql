@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Coins" ALTER COLUMN "type" DROP NOT NULL;

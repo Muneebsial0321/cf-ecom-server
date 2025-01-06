@@ -1,20 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { CreateReelDto } from './dto/create-reel.dto';
 import { DbService } from 'src/db/db.service';
+import { CoinFactory, PointsEnum, TransactionTypeEnum } from 'src/coins/coinFactory.service';
 
 @Injectable()
 export class ReelsService {
 
-  constructor(private readonly db: DbService) { }
+  constructor(
+    private readonly db: DbService,
+    private readonly coin: CoinFactory,
+  ) { }
+
+
   create(reel: CreateReelDto) {
-    // return this.db.reel.create({
-    //   data: {
-    //     User: { connect: { id: createReelDto.userId } },
-    //     Product: { connect: { id: createReelDto.productId } },
-    //     desc: createReelDto.desc,
-    //     videoUrl: createReelDto.videoUrl
-    //   }
-    // })
+
+    this.coin.Transaction(reel.userId,PointsEnum.reelUpload,TransactionTypeEnum.earn,"reel upload")
     return this.db.reel.create({
       data: reel
     })

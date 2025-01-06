@@ -14,8 +14,5 @@ export class CoinsService {
     return this.db.coins.findUnique({where:{id},include:{User:true}})
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} coin`;
-  }
 
 }
