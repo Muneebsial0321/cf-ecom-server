@@ -28,8 +28,7 @@ model User {
   reels         Reel[]
   Reviews       Reviews[]
   comments      Comments[]
-  coins         Coins?      @relation(fields: [coinsId], references: [id])
-  coinsId       String?     @unique
+  coins         Coins[]
 }
 
 model Admin {
@@ -157,9 +156,17 @@ model Comments {
 }
 
 model Coins {
-  id    String @id @default(uuid())
-  value Float
-  User  User?
+  id     String  @id @default(uuid())
+  value  Int
+  User   User?   @relation(fields: [userId], references: [id])
+  userId String?
+}
+
+model Points {
+  id    Int     @id @default(autoincrement())
+  name  String @unique
+  desc  String?
+  value Int
 }
 
 // ----------------------->

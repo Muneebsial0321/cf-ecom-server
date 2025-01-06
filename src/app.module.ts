@@ -20,6 +20,7 @@ import { ReplysModule } from './replys/replys.module';
 import { UploadModule } from './upload/upload.module';
 import { CommentsModule } from './comments/comments.module';
 import { CoinsModule } from './coins/coins.module';
+import { PointsModule } from './points/points.module';
 
 @Module({
 
@@ -40,7 +41,8 @@ import { CoinsModule } from './coins/coins.module';
     ReplysModule,
     UploadModule,
     CommentsModule,
-    CoinsModule
+    CoinsModule,
+    PointsModule
   ],
   controllers: [],
   providers: [],
