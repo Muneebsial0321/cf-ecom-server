@@ -25,6 +25,8 @@ export class ReelsService {
   }
 
   findOne(id: string) {
+
+    
     return this.db.reel.findUnique({ where: { id }, include: { User: true, Product: true, comments: true } })
   }
 
