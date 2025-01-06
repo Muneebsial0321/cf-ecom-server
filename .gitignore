@@ -43,6 +43,7 @@ out/
 coverage/
 .nyc_output/
 *.lcov
+test.js
 
 # Miscellaneous
 *.lock

@@ -14,7 +14,7 @@ export class ReelsService {
 
   create(reel: CreateReelDto) {
 
-    this.coin.Transaction(reel.userId,PointsEnum.reelUpload,TransactionTypeEnum.earn,"reel upload")
+    this.coin.Transaction(reel.userId, PointsEnum.reelUpload, TransactionTypeEnum.earn, "reel upload")
     return this.db.reel.create({
       data: reel
     })
@@ -24,9 +24,19 @@ export class ReelsService {
     return this.db.reel.findMany()
   }
 
-  findOne(id: string) {
+  async findOne(id: string) {
+    const th = 100;
+    // register view
+    await this.db.views.create({ data: { reelId: id, userId: "" } })
+    const views = await this.db.views.count({ where: { reelId: id } })
+    const mileStone = Math.floor(views / th) // 0
+    const dbMileStone = await this.db.coinMileStone.findFirst({ where: { objId: id } })
 
-    
+
+    if (dbMileStone.mileStone <= mileStone) {
+      this.db.coinMileStone.updateMany({ where: { objId: id }, data: { mileStone } })
+    }
+    // update return
     return this.db.reel.findUnique({ where: { id }, include: { User: true, Product: true, comments: true } })
   }
 
