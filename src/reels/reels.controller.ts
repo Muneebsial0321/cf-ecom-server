@@ -36,6 +36,6 @@ export class ReelsController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.reelsService.remove(+id);
+    return this.reelsService.remove(id);
   }
 }

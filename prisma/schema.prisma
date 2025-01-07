@@ -30,6 +30,7 @@ model User {
   comments      Comments[]
   coins         Coins[]
   views         Views[]
+  likes         Likes[]
 }
 
 model Admin {
@@ -126,15 +127,19 @@ model Catagory {
 }
 
 model Reel {
-  id        String     @id @default(uuid())
-  desc      String
-  videoUrl  String
-  Product   Product?   @relation(fields: [productId], references: [id])
-  productId String?
-  User      User?      @relation(fields: [userId], references: [id])
-  userId    String?
-  comments  Comments[]
-  reel      Views[]
+  id            String     @id @default(uuid())
+  desc          String
+  videoUrl      String
+  Product       Product?   @relation(fields: [productId], references: [id])
+  productId     String?
+  User          User?      @relation(fields: [userId], references: [id])
+  userId        String?
+  viewCount     Int?       @default(0)
+  likeCount     Int?       @default(0)
+  commentsCount Int?       @default(0)
+  views         Views[]
+  comments      Comments[]
+  Likes         Likes[]
 }
 
 model Storage {
@@ -155,6 +160,8 @@ model Comments {
   reelId  String?
   User    User?   @relation(fields: [userId], references: [id])
   userId  String?
+
+  @@unique([reelId, userId])
 }
 
 model Coins {
@@ -177,13 +184,24 @@ model CoinMileStone {
   id        String   @id @default(uuid())
   objType   String
   objId     String
-  mileStone Int
+  mileStone Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([objId,objType])
 }
 
 model Views {
+  id     String @id @default(uuid())
+  User   User   @relation(fields: [userId], references: [id])
+  userId String
+  Reel   Reel   @relation(fields: [reelId], references: [id])
+  reelId String
 
+  @@unique([userId, reelId])
+}
+
+model Likes {
   id     String @id @default(uuid())
   User   User   @relation(fields: [userId], references: [id])
   userId String

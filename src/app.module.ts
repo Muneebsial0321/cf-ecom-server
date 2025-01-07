@@ -21,6 +21,8 @@ import { UploadModule } from './upload/upload.module';
 import { CommentsModule } from './comments/comments.module';
 import { CoinsModule } from './coins/coins.module';
 import { PointsModule } from './points/points.module';
+import { ViewsModule } from './views/views.module';
+import { LikesModule } from './likes/likes.module';
 
 @Module({
 
@@ -42,7 +44,9 @@ import { PointsModule } from './points/points.module';
     UploadModule,
     CommentsModule,
     CoinsModule,
-    PointsModule
+    PointsModule,
+    ViewsModule,
+    LikesModule,
   ],
   controllers: [],
   providers: [],

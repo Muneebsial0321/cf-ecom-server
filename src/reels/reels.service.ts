@@ -12,12 +12,20 @@ export class ReelsService {
   ) { }
 
 
-  create(reel: CreateReelDto) {
+  async create(reel: CreateReelDto) {
 
-    this.coin.Transaction(reel.userId, PointsEnum.reelUpload, TransactionTypeEnum.earn, "reel upload")
-    return this.db.reel.create({
+    const newReel = await this.db.reel.create({
       data: reel
     })
+    await this.db.coinMileStone.create({
+      data: {
+        objId: newReel.id,
+        objType: "reel",
+        mileStone: 0
+      }
+    })
+    await this.coin.Transaction(reel.userId, PointsEnum.reelUpload, TransactionTypeEnum.earn, "reel upload")
+    return newReel
   }
 
   findAll() {
@@ -25,22 +33,18 @@ export class ReelsService {
   }
 
   async findOne(id: string) {
-    const th = 100;
-    // register view
-    await this.db.views.create({ data: { reelId: id, userId: "" } })
-    const views = await this.db.views.count({ where: { reelId: id } })
-    const mileStone = Math.floor(views / th) // 0
-    const dbMileStone = await this.db.coinMileStone.findFirst({ where: { objId: id } })
+    const reel = await this.db.reel.findUnique({ where: { id }, include: { User: { select: { id: true, name: true, picUrl: true } } } })
+    try {
+      await this.db.views.create({ data: { reelId: reel.id, userId: "adad9eff-5e9a-4f56-bf40-6d5a77c5f2c9" } })
+      await this.db.reel.update({ where: { id }, data: { viewCount: { increment: 1 } } })
+      console.log("view added")
+    } catch (error) { }
 
-
-    if (dbMileStone.mileStone <= mileStone) {
-      this.db.coinMileStone.updateMany({ where: { objId: id }, data: { mileStone } })
-    }
-    // update return
-    return this.db.reel.findUnique({ where: { id }, include: { User: true, Product: true, comments: true } })
+    await this.coin.Views_1000(id, reel.viewCount, reel.userId)
+    return reel
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} reel`;
+  remove(id: string) {
+    return this.db.reel.delete({ where: { id } })
   }
 }
