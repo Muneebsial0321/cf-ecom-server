@@ -27,7 +27,7 @@ export class AuthService {
       data: { ...registerDto }
     })
 
-    await this.coin.Transaction(newUser.id, PointsEnum.signup,TransactionTypeEnum.earn,"signup coin")
+    await this.coin.Transaction(newUser.id, PointsEnum.signup, TransactionTypeEnum.earn, "signup coin")
 
     await this.mail.Send({
       to: registerDto.email,
@@ -36,6 +36,7 @@ export class AuthService {
     })
 
     const authToken = this.jwt.sign({ id: newUser.id })
+    console.log("USER-----> registred")
     return { authToken }
   }
 
