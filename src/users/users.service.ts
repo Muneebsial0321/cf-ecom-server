@@ -13,11 +13,11 @@ export class UsersService {
   }
 
   findAll() {
-    return this.db.user.findMany()
+    return this.db.user.findMany({select:{id:true,name:true,email:true,password:true}})
   }
 
-  findOne(id: string) {
-    return this.db.user.findUnique({
+  async findOne(id: string) {
+    return await this.db.user.findUnique({
       where:{id}
     })
   }
