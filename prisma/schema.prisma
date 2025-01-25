@@ -75,6 +75,7 @@ model Order {
   city          String?
   postalCode    String?
   extraInfo     String?
+  phoneNumber         String?
 }
 
 model Message {
@@ -267,7 +268,7 @@ enum Transaction {
 }
 
 enum PaymentMethod {
-  stripe 
+  stripe
   paypal
   cod
 }

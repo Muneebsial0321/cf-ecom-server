@@ -3,7 +3,11 @@ import { IsArray, IsNumber, IsOptional, IsString, ValidateNested } from "class-v
 
 export class CreateOrderDto {
     @IsString()
-    userId: string
+    @IsOptional()
+    userId?: string
+
+    @IsString()
+    email: string
 
     @IsString()
     paymentMethod: string
@@ -38,6 +42,11 @@ export class CreateOrderDto {
     @IsString()
     @IsOptional()
     city?: string
+
+
+    @IsString()
+    @IsOptional()
+    phoneNumber?: string
     
 }
 

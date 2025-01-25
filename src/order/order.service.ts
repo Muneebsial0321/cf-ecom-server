@@ -15,8 +15,9 @@ export class OrderService {
   ) { }
 
   async create(createOrderDto: CreateOrderDto) {
-
-    const { address, city, country, extraInfo, postalCode, paymentMethod, userId } = createOrderDto
+    const { id } = await this.db.user.findUnique({ where: { email: createOrderDto.email }, select: { id: true } })
+    const userId = id
+    const { address, city, country, extraInfo, postalCode, paymentMethod, phoneNumber } = createOrderDto
     const order = await this.db.order.create({
       data: {
         paymentMethod,
@@ -26,6 +27,7 @@ export class OrderService {
         country,
         postalCode,
         extraInfo,
+        phoneNumber,
         totalPrice: await this.__Total_Price__(createOrderDto.products),
         products: {
           create: createOrderDto.products.map(p => ({
@@ -44,7 +46,7 @@ export class OrderService {
       subject: "Your order has been placed",
       mail: Mail.ORDER_PLACED
     })
-
+    console.log("Order was placed")
     return order
   }
 
