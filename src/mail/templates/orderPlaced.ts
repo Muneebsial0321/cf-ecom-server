@@ -1,5 +1,5 @@
 const orderPlaced = () => {
-    console.log("updating order")
+    console.log("placing order")
     return `An order has been placed `
 }
 export { orderPlaced }

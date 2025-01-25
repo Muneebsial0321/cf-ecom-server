@@ -70,6 +70,11 @@ model Order {
   status        Order_Status        @default(pending)
   totalPrice    Float?
   products      Jun_Product_Order[]
+  address       String?
+  country       String?
+  city          String?
+  postalCode    String?
+  extraInfo     String?
 }
 
 model Message {
@@ -188,7 +193,7 @@ model CoinMileStone {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([objId,objType])
+  @@unique([objId, objType])
 }
 
 model Views {
@@ -259,4 +264,10 @@ enum Order_Status {
 enum Transaction {
   earn
   spend
+}
+
+enum PaymentMethod {
+  stripe 
+  paypal
+  cod
 }

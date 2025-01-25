@@ -3,30 +3,49 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { DbService } from 'src/db/db.service';
 import { Prisma } from '@prisma/client';
+import { Mail, MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class OrderService {
 
-  constructor(private readonly db: DbService) { }
+  constructor(
+    private readonly db: DbService,
+    private readonly mail: MailService,
 
-  create(createOrderDto: CreateOrderDto) {
+  ) { }
 
-    return this.db.order.create({
+  async create(createOrderDto: CreateOrderDto) {
+
+    const { address, city, country, extraInfo, postalCode, paymentMethod, userId } = createOrderDto
+    const order = await this.db.order.create({
       data: {
-        paymentMethod: createOrderDto.paymentMethod,
-        totalPrice: createOrderDto.totalPrice,
-        User: { connect: { id: createOrderDto.userId } },
+        paymentMethod,
+        userId,
+        address,
+        city,
+        country,
+        postalCode,
+        extraInfo,
+        totalPrice: await this.__Total_Price__(createOrderDto.products),
         products: {
-          create: createOrderDto.products.map(product => ({
-            Product: { connect: { id: product.productId } }, 
-            quantity: product.quantity, 
-            ...(product.colour ? { colour: product.colour } : {}), 
-            ...(product.size ? { size: product.size } : {}), 
+          create: createOrderDto.products.map(p => ({
+            Product: { connect: { id: p.productId } },
+            quantity: p.quantity,
+            ...(p.colour ? { colour: p.colour } : {}),
+            ...(p.size ? { size: p.size } : {}),
           })),
-        },
+        }
 
       }
     })
+    const { email } = await this.db.user.findUnique({ where: { id: userId }, select: { email: true } })
+    this.mail.Send({
+      to: email,
+      subject: "Your order has been placed",
+      mail: Mail.ORDER_PLACED
+    })
+
+    return order
   }
 
   findAll() {
@@ -38,7 +57,7 @@ export class OrderService {
       where: { id },
       include: {
         User: true,
-        products: true
+        products: { include: { Product: true } },
       }
     })
   }
@@ -49,5 +68,28 @@ export class OrderService {
 
   remove(id: string) {
     return this.db.order.delete({ where: { id } });
+  }
+
+  async getUserOrders(userId: string) {
+    return await this.db.order.findMany({
+      where: { userId }
+    })
+  }
+
+
+  // _____________________________||
+  // Utility functions
+  //------------------------------||
+
+
+  async __Total_Price__(prodArray: Array<{ productId: string, size?: string, colour?: string, quantity: number }>): Promise<number> {
+    const priceArray = await Promise.all(prodArray.map(async (e) => {
+      const { price } = await this.db.product.findUnique({ where: { id: e.productId }, select: { price: true } })
+      return price * e.quantity
+    }))
+
+    return priceArray.reduce((sum, num) => sum + num, 0);
+
+
   }
 }

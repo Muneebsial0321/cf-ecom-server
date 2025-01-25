@@ -1,14 +1,21 @@
 {
-    "userId": "user-123",
-    "paymentMethod": "Credit Card",
-    "totalPrice": 6998,
-    "products": [
-      {
-        "productId": "prod-1"
-      },
-      {
-        "productId": "prod-2"
-      }
-    ]
-  }
-  
+  "userId": "92308dc4-c899-49f6-9709-44f467c228a3",
+  "paymentMethod": "cod",
+  "products": [
+    {
+      "productId": "834adcfa-e294-4a7e-b9a4-d56878fb83e2",
+      "colour": "red",
+      "size": "md",
+      "quantity": 2
+    },
+    {
+      "productId": "ec59bfed-c81c-47ee-af5e-4b3344f27abb",
+      "quantity": 5
+    }
+  ],
+  "address": "str 1 house no.42",
+  "country": "PAK",
+  "postalCode": "12345",
+  "extraInfo": "Please deliver after 5 PM",
+  "city": "Bahawalpur"
+}

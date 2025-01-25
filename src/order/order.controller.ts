@@ -7,6 +7,12 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
+  // @Post()
+  // create(@Body() createOrderDto) {
+  //   console.log({createOrderDto})
+  //   return createOrderDto;
+  //   // return {createOrderDto}
+  // }
   @Post()
   create(@Body() createOrderDto: CreateOrderDto) {
     return this.orderService.create(createOrderDto);
@@ -23,6 +29,11 @@ export class OrderController {
     return this.orderService.findOne(id);
   }
 
+  @Get('/user/:id')
+  getUserOrders(@Param('id') id:string){
+    return this.orderService.getUserOrders(id)
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
     return this.orderService.update(id, updateOrderDto);
@@ -32,4 +43,9 @@ export class OrderController {
   remove(@Param('id') id: string) {
     return this.orderService.remove(id);
   }
+
+  // @Get('test')
+  // test(){
+  //   return this.orderService.__Total_Price__()
+  // }
 }

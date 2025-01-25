@@ -8,13 +8,37 @@ export class CreateOrderDto {
     @IsString()
     paymentMethod: string
 
-    @IsNumber()
-    totalPrice: number
-
     @IsArray()
     @ValidateNested({ each: true })
     @Type(() => productDto)
     products: productDto[]
+
+
+    // extras for development
+
+
+    @IsString()
+    @IsOptional()
+    address?: string
+
+    @IsString()
+    @IsOptional()
+    country?: string
+
+    @IsString()
+    @IsOptional()
+    postalCode?: string
+
+
+    @IsString()
+    @IsOptional()
+    extraInfo?: string
+
+
+    @IsString()
+    @IsOptional()
+    city?: string
+    
 }
 
 class productDto {
