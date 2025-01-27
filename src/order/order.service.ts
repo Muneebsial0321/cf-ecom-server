@@ -4,6 +4,7 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import { DbService } from 'src/db/db.service';
 import { Order_Status, Prisma } from '@prisma/client';
 import { Mail, MailService } from 'src/mail/mail.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class OrderService {
@@ -11,6 +12,7 @@ export class OrderService {
   constructor(
     private readonly db: DbService,
     private readonly mail: MailService,
+    private readonly jwt: JwtService,
 
   ) { }
 
@@ -73,13 +75,20 @@ export class OrderService {
   }
 
   remove(id: string) {
-    return this.db.order.delete({ where: { id } });
+    return this.db.order.deleteMany({ where: { id } });
   }
 
   async getUserOrders(userId: string) {
     return await this.db.order.findMany({
       where: { userId }
     })
+  }
+
+  async jwtCreateOrder(orderjwt: string) {
+    const order = this.jwt.verify(orderjwt)
+   console.log("creating order using jwt===================>")
+    return await this.create(order)
+
   }
 
 

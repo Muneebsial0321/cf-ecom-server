@@ -3,13 +3,13 @@
   "paymentMethod": "cod",
   "products": [
     {
-      "productId": "834adcfa-e294-4a7e-b9a4-d56878fb83e2",
+      "productId": "e8acb458-4828-4417-98f8-75fbd109d808",
       "colour": "red",
       "size": "md",
       "quantity": 2
     },
     {
-      "productId": "ec59bfed-c81c-47ee-af5e-4b3344f27abb",
+      "productId": "c288855a-646e-4efb-a728-9171a23e06b8",
       "quantity": 5
     }
   ],

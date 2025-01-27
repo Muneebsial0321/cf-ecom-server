@@ -19,5 +19,6 @@ import { CoinsModule } from 'src/coins/coins.module';
   ],
   controllers: [AuthController],
   providers: [AuthService, GoogleStrategy, OAuth],
+  exports:[JwtModule]
 })
 export class AuthModule { }

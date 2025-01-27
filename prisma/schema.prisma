@@ -54,7 +54,6 @@ model Product {
   brandId    String?
   catagory   Catagory?           @relation(fields: [catagoryId], references: [id], onDelete: SetNull)
   catagoryId String?
-  reels      Reel[]
   reviews    Reviews[]
   order      Jun_Product_Order[]
   createdAt  DateTime            @default(now())
@@ -136,8 +135,6 @@ model Reel {
   id            String     @id @default(uuid())
   desc          String
   videoUrl      String
-  Product       Product?   @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId     String?
   User          User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String?
   viewCount     Int?       @default(0)

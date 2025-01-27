@@ -26,11 +26,16 @@ export class OrderController {
     return this.orderService.findOne(id);
   }
 
+
+  @Get('/t/:token')
+  jwtOrderCreate(@Param('token') token: string) {
+    return this.orderService.jwtCreateOrder(token)
+  }
+
   @Get('/user/:id')
   getUserOrders(@Param('id') id: string) {
     return this.orderService.getUserOrders(id)
   }
-
 
 
   @Get('q')
@@ -50,8 +55,5 @@ export class OrderController {
     return this.orderService.remove(id);
   }
 
-  // @Get('test')
-  // test(){
-  //   return this.orderService.__Total_Price__()
-  // }
+
 }

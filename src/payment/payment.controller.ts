@@ -1,12 +1,10 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { PaymentService } from './payment.service';
-import { CreatePaymentDto } from './dto/create-payment.dto';
-import { UpdatePaymentDto } from './dto/update-payment.dto';
 import { StripeService } from './services/stripe.service';
+import { CreateOrderDto } from 'src/order/dto/create-order.dto';
 
 @Controller('payment')
 export class PaymentController {
-  constructor(private readonly stripe: StripeService) {}
+  constructor(private readonly stripe: StripeService) { }
 
 
   @Get()
@@ -14,9 +12,9 @@ export class PaymentController {
     return "hello"
   }
 
-  @Get('/stripe')
-  StripePayment() {
-  return  this.stripe.createCheckoutSession()
+  @Post('stripe')
+  StripePayment(@Body() data: CreateOrderDto) {
+    return this.stripe.createCheckoutSession(data)
   }
-  
+
 }
