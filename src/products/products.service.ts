@@ -13,7 +13,8 @@ export class ProductsService {
   create(createProductDto: Prisma.ProductCreateInput) {
     return this.db.product
       .create({
-        data:  createProductDto})
+        data: createProductDto
+      })
   }
 
   findAll() {
@@ -32,8 +33,8 @@ export class ProductsService {
     return `This action updates a #${id} product`;
   }
 
-  remove(id: string) {
-    return this.db.product
+  async remove(id: string) {
+    return await this.db.product
       .delete({ where: { id } })
   }
 }

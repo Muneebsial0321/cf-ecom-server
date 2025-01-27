@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { DbService } from 'src/db/db.service';
-import { Prisma } from '@prisma/client';
+import { Order_Status, Prisma } from '@prisma/client';
 import { Mail, MailService } from 'src/mail/mail.service';
 
 @Injectable()
@@ -50,8 +50,12 @@ export class OrderService {
     return order
   }
 
+  async findOrderOnStatus(status: Order_Status) {
+    return await this.db.order.findMany({ where: { status } });
+  }
+
   findAll() {
-    return this.db.order.findMany();
+    return this.db.order.findMany()
   }
 
   findOne(id: string) {
@@ -77,6 +81,8 @@ export class OrderService {
       where: { userId }
     })
   }
+
+
 
 
   // _____________________________||

@@ -50,9 +50,9 @@ model Product {
   picUrl     String[]
   tags       String[]
   isAvalible Boolean             @default(true)
-  brand      Brand?              @relation(fields: [brandId], references: [id])
+  brand      Brand?              @relation(fields: [brandId], references: [id], onDelete: SetNull)
   brandId    String?
-  catagory   Catagory?           @relation(fields: [catagoryId], references: [id])
+  catagory   Catagory?           @relation(fields: [catagoryId], references: [id], onDelete: SetNull)
   catagoryId String?
   reels      Reel[]
   reviews    Reviews[]
@@ -64,7 +64,7 @@ model Order {
   id            String              @id @default(uuid())
   no            Int                 @default(autoincrement())
   createdAt     DateTime            @default(now())
-  User          User                @relation(fields: [userId], references: [id])
+  User          User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String
   paymentMethod String?
   status        Order_Status        @default(pending)
@@ -75,7 +75,7 @@ model Order {
   city          String?
   postalCode    String?
   extraInfo     String?
-  phoneNumber         String?
+  phoneNumber   String?
 }
 
 model Message {
@@ -101,7 +101,7 @@ model Reviews {
   no        Int      @default(autoincrement())
   message   String
   createdAt DateTime @default(now())
-  Product   Product  @relation(fields: [productId], references: [id])
+  Product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
   user      User     @relation(fields: [userId], references: [id])
   userId    String
@@ -136,9 +136,9 @@ model Reel {
   id            String     @id @default(uuid())
   desc          String
   videoUrl      String
-  Product       Product?   @relation(fields: [productId], references: [id])
+  Product       Product?   @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId     String?
-  User          User?      @relation(fields: [userId], references: [id])
+  User          User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String?
   viewCount     Int?       @default(0)
   likeCount     Int?       @default(0)
@@ -199,9 +199,9 @@ model CoinMileStone {
 
 model Views {
   id     String @id @default(uuid())
-  User   User   @relation(fields: [userId], references: [id])
+  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
-  Reel   Reel   @relation(fields: [reelId], references: [id])
+  Reel   Reel   @relation(fields: [reelId], references: [id], onDelete: Cascade)
   reelId String
 
   @@unique([userId, reelId])
@@ -209,9 +209,9 @@ model Views {
 
 model Likes {
   id     String @id @default(uuid())
-  User   User   @relation(fields: [userId], references: [id])
+  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
-  Reel   Reel   @relation(fields: [reelId], references: [id])
+  Reel   Reel   @relation(fields: [reelId], references: [id], onDelete: Cascade)
   reelId String
 
   @@unique([userId, reelId])
@@ -229,9 +229,9 @@ model Jun_User_ChatRoom {
 model Jun_Product_Order {
   id        String  @id @default(uuid())
   no        Int     @default(autoincrement())
-  Product   Product @relation(fields: [productId], references: [id])
+  Product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
-  Order     Order   @relation(fields: [orderId], references: [id])
+  Order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   orderId   String
   quantity  Int
   colour    String?
