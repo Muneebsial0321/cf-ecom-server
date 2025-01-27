@@ -23,6 +23,7 @@ export class ProductsController {
 
     // console.log({images})
     // console.log({body})
+    console.log("creating body")
     body.picUrl = await this.upload.manyUpload(images)
     const product = plainToInstance(CreateProductDto, {...body});
     console.log({body,product})

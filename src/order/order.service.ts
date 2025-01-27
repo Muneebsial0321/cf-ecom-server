@@ -55,7 +55,7 @@ export class OrderService {
   }
 
   findAll() {
-    return this.db.order.findMany()
+    return this.db.order.findMany({ include: { products: true } })
   }
 
   findOne(id: string) {
