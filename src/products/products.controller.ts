@@ -12,21 +12,20 @@ export class ProductsController {
   constructor(
     private readonly productsService: ProductsService,
     private readonly upload: UploadService,
- ) { }
+  ) { }
 
 
 
   // extract images and then pass them....
   @Post()
   @UseInterceptors(FilesInterceptor('images', 10))
-  async create(@UploadedFiles() images: Express.Multer.File[],@Body() body: any) {
-
-    // console.log({images})
-    // console.log({body})
-    console.log("creating body")
+  async create(@UploadedFiles() images: Express.Multer.File[], @Body() body: any) {
+    console.log({c:body.catagoryId,b:body.brandId})
+    const catagoryId = body.catagoryId ? JSON.parse(body.catagoryId) : null;
+    const brandId = body.brandId ? JSON.parse(body.brandId) : null;
+    console.log({ catagoryId, brandId })
     body.picUrl = await this.upload.manyUpload(images)
-    const product = plainToInstance(CreateProductDto, {...body});
-    console.log({body,product})
+    const product = plainToInstance(CreateProductDto, { ...body, catagoryId, brandId });
     return this.productsService.create(product);
   }
 

@@ -1,15 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
+import { DbService } from 'src/db/db.service';
 
 @Injectable()
 export class BrandService {
-  create(createBrandDto: CreateBrandDto) {
-    return 'This action adds a new brand';
+  constructor(
+    private readonly db:DbService
+  ){}
+  async create(createBrandDto: CreateBrandDto) {
+    return this.db.brand.create({data:createBrandDto})
   }
 
-  findAll() {
-    return `This action returns all brand`;
+  async findAll() {
+    return await this.db.brand.findMany()
   }
 
   findOne(id: number) {

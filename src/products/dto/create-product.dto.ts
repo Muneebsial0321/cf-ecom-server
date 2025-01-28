@@ -1,5 +1,5 @@
 import { Transform } from "class-transformer"
-import { IsArray, IsBoolean, isNumber, IsNumber, IsOptional, IsString } from "class-validator"
+import { IsArray, IsBoolean, IsNumber, IsOptional, IsString } from "class-validator"
 
 export class CreateProductDto {
     @IsString()

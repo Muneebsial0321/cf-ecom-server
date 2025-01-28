@@ -1,15 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { BrandService } from './brand.service';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { UploadService } from 'src/upload/upload.service';
+import { plainToInstance } from 'class-transformer';
 
 @Controller('brand')
 export class BrandController {
-  constructor(private readonly brandService: BrandService) {}
+  constructor(
+    private readonly brandService: BrandService,
+    private readonly upload: UploadService
+  ) { }
 
+  @UseInterceptors(FileInterceptor('image'))
   @Post()
-  create(@Body() createBrandDto: CreateBrandDto) {
-    return this.brandService.create(createBrandDto);
+  async create(@UploadedFile() image: Express.Multer.File, @Body() req: any) {
+    console.log(image.fieldname)
+    const picUrl = await this.upload.singleUpload(image)
+    const brand = plainToInstance(CreateBrandDto, { ...req, picUrl })
+    return await this.brandService.create(brand)
+
   }
 
   @Get()

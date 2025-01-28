@@ -118,7 +118,7 @@ model Wishlist {
 model Brand {
   id      String    @id @default(uuid())
   name    String
-  desc    String
+  desc    String?
   picUrl  String
   Product Product[]
 }

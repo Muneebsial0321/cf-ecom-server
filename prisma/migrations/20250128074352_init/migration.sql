@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Brand" ALTER COLUMN "desc" DROP NOT NULL;
