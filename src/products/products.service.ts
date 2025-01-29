@@ -26,6 +26,17 @@ export class ProductsService {
       })
   }
 
+  async categoryFindAll(catName: string) {
+    return await this.db.product
+      .findMany({
+        where: { catagory: { name: catName } },
+        include: {
+          brand: { select: { name: true, picUrl: true } },
+          catagory: { select: { name: true, picUrl: true } }
+        }
+      })
+  }
+
   findOne(id: string) {
     return this.db.product
       .findUnique({

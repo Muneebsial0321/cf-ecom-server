@@ -20,7 +20,7 @@ export class ProductsController {
   @Post()
   @UseInterceptors(FilesInterceptor('images', 10))
   async create(@UploadedFiles() images: Express.Multer.File[], @Body() body: any) {
-    console.log({c:body.catagoryId,b:body.brandId})
+    console.log({ c: body.catagoryId, b: body.brandId })
     const catagoryId = body.catagoryId ? JSON.parse(body.catagoryId) : null;
     const brandId = body.brandId ? JSON.parse(body.brandId) : null;
     console.log({ catagoryId, brandId })
@@ -30,18 +30,20 @@ export class ProductsController {
   }
 
 
-
-
-
-
   @Get()
   findAll() {
     return this.productsService.findAll();
   }
 
-  @Get(':id')
+
+  @Get('s/:id')
   findOne(@Param('id') id: string) {
     return this.productsService.findOne(id);
+  }
+
+  @Get("c/:name")
+  categoryProducts(@Param("name") catName: string) {
+    return this.productsService.categoryFindAll(catName)
   }
 
   @Patch(':id')
