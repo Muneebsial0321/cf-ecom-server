@@ -19,6 +19,7 @@ export class CategoryService {
 
 
   remove(id: string) {
-    return this.db.catagory.delete({where:{id}});
+    return this.db.catagory.deleteMany();
+    // return this.db.catagory.delete({where:{id}});
   }
 }
