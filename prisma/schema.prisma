@@ -40,23 +40,27 @@ model Admin {
 }
 
 model Product {
-  id         String              @id @default(uuid())
-  no         Int                 @default(autoincrement())
-  name       String
-  desc       String
-  price      Int
-  colour     String[]
-  size       String[]
-  picUrl     String[]
-  tags       String[]
-  isAvalible Boolean             @default(true)
-  brand      Brand?              @relation(fields: [brandId], references: [id], onDelete: SetNull)
-  brandId    String?
-  catagory   Catagory?           @relation(fields: [catagoryId], references: [id], onDelete: SetNull)
-  catagoryId String?
-  reviews    Reviews[]
-  order      Jun_Product_Order[]
-  createdAt  DateTime            @default(now())
+  id              String              @id @default(uuid())
+  no              Int                 @default(autoincrement())
+  name            String
+  desc            String
+  price           Int
+    discountPercent Int?                @default(0)
+    salePrice       Int?
+    isOnSale        Boolean             @default(false)
+  saleEndDate     DateTime?
+  colour          String[]
+  size            String[]
+  picUrl          String[]
+  tags            String[]
+  isAvalible      Boolean             @default(true)
+  brand           Brand?              @relation(fields: [brandId], references: [id], onDelete: SetNull)
+  brandId         String?
+  catagory        Catagory?           @relation(fields: [catagoryId], references: [id], onDelete: SetNull)
+  catagoryId      String?
+  reviews         Reviews[]
+  order           Jun_Product_Order[]
+  createdAt       DateTime            @default(now())
 }
 
 model Order {

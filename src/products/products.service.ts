@@ -9,7 +9,6 @@ export class ProductsService {
 
 
   create(createProductDto: CreateProductDto) {
-    console.log({ createProductDto })
     return this.db.product
       .create({
         data: createProductDto
@@ -25,6 +24,36 @@ export class ProductsService {
         }
       })
   }
+
+  async findAllOnSale() {
+    const products = await this.db.product.findMany({
+      where: { isOnSale: true },
+      select: {
+        id: true,
+        name: true,
+        desc: true,
+        salePrice: true,
+        colour: true,
+        size: true,
+        picUrl: true,
+        tags: true,
+        isOnSale: true,
+        brand: { select: { name: true, picUrl: true } },
+        catagory: { select: { name: true, picUrl: true } }
+      }
+    });
+
+    const transformedProducts: any[] = [];
+    products.forEach(({ salePrice, ...product }) => {
+      transformedProducts.push({
+        ...product,
+        price: salePrice,
+      });
+    });
+
+    return transformedProducts;
+  }
+
 
   async categoryFindAll(catName: string) {
     return await this.db.product

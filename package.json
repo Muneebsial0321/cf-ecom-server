@@ -9,6 +9,7 @@
     "mig": " npx prisma migrate dev --name init && npx prisma generate",
     "gen": " npx prisma generate",
     "build": "nest build",
+    "prod": "npm run gen && nest build && pm2 restart all",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "dev": "nest start --watch",

@@ -30,9 +30,21 @@ export class ProductsController {
   }
 
 
+  @Post("dev")
+  async devCreate(@Body() body: any) {
+    const product = plainToInstance(CreateProductDto, { ...body});
+    return this.productsService.create(product);
+  }
+
+
   @Get()
   findAll() {
     return this.productsService.findAll();
+  }
+
+  @Get("sale")
+  findAllOnSale() {
+    return this.productsService.findAllOnSale();
   }
 
 
