@@ -21,7 +21,7 @@ async function bootstrap() {
   });
 
 
-  await app.listen(process.env.PORT);
-  console.log("listening on port ", process.env.BACKEND_URL)
+  await app.listen(process.env.PORT || 5000);
+  console.log("listening on port ", process.env.BACKEND_URL || 5000)
 }
 bootstrap();

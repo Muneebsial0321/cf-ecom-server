@@ -127,7 +127,7 @@ model Catagory {
   id      String    @id @default(uuid())
   name    String
   picUrl  String?
-  icon    String?
+  desc    String?
   Product Product[]
 }
 

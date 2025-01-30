@@ -8,29 +8,30 @@ export class UsersService {
 
   constructor(private readonly db: DbService) { }
 
-  _DEV_create(user:Prisma.UserCreateInput){
-    return this.db.user.create({data:user})
+  _DEV_create(user: Prisma.UserCreateInput) {
+    return this.db.user.create({ data: user })
   }
 
   findAll() {
-    return this.db.user.findMany({select:{id:true,name:true,email:true,password:true}})
+    return this.db.user.findMany({ select: { id: true, name: true, email: true, password: true } })
   }
 
   async findOne(id: string) {
     return await this.db.user.findUnique({
-      where:{id}
+      where: { id },
+      include: { order: true, reels: true }
     })
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
-   this.db.user.update({
-    where:{id},
-    data:updateUserDto
-   })
+    this.db.user.update({
+      where: { id },
+      data: updateUserDto
+    })
   }
 
   async remove(id: string) {
-   await  this.db.user.delete({where:{id}})
-   return {message:"user has been deleted"}
+    await this.db.user.delete({ where: { id } })
+    return { message: "user has been deleted" }
   }
 }

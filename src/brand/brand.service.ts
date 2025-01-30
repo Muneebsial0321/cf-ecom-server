@@ -6,25 +6,25 @@ import { DbService } from 'src/db/db.service';
 @Injectable()
 export class BrandService {
   constructor(
-    private readonly db:DbService
-  ){}
+    private readonly db: DbService
+  ) { }
   async create(createBrandDto: CreateBrandDto) {
-    return this.db.brand.create({data:createBrandDto})
+    return this.db.brand.create({ data: createBrandDto })
   }
 
   async findAll() {
     return await this.db.brand.findMany()
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} brand`;
   }
 
-  update(id: number, updateBrandDto: UpdateBrandDto) {
+  update(id: string, updateBrandDto: UpdateBrandDto) {
     return `This action updates a #${id} brand`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} brand`;
+  async remove(id: string) {
+    return await this.db.brand.delete({ where: { id } });
   }
 }
