@@ -47,6 +47,11 @@ export class ProductsController {
     return this.productsService.findAllOnSale();
   }
 
+  @Get("search/name/:name")
+  findAllOnName(@Param('name') name :string) {
+    return this.productsService.findAllOnName(name)
+  }
+
 
   @Get('s/:id')
   findOne(@Param('id') id: string) {

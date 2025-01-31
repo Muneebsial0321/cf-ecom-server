@@ -65,6 +65,16 @@ export class ProductsService {
         }
       })
   }
+  async findAllOnName(prodName: string) {
+    return await this.db.product
+      .findMany({
+        where: { name: { contains: prodName, mode: "insensitive" } },
+        include: {
+          brand: { select: { name: true, picUrl: true } },
+          catagory: { select: { name: true, picUrl: true } }
+        }
+      })
+  }
 
   findOne(id: string) {
     return this.db.product

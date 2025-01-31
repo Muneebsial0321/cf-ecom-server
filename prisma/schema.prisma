@@ -45,9 +45,9 @@ model Product {
   name            String
   desc            String
   price           Int
-    discountPercent Int?                @default(0)
-    salePrice       Int?
-    isOnSale        Boolean             @default(false)
+  discountPercent Int?                @default(0)
+  salePrice       Int?
+  isOnSale        Boolean             @default(false)
   saleEndDate     DateTime?
   colour          String[]
   size            String[]
