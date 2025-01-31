@@ -61,4 +61,16 @@ export class CreateProductDto {
     @IsBoolean()
     isAvalible?: boolean
 
+    @IsNumber()
+    @IsOptional()
+    discountPercent?: number
+
+    @IsNumber()
+    @IsOptional()
+    salePrice?: number
+
+    @IsBoolean()
+    @IsOptional()
+    isOnSale?: boolean
+
 }

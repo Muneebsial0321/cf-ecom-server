@@ -20,19 +20,22 @@ export class ProductsController {
   @Post()
   @UseInterceptors(FilesInterceptor('images', 10))
   async create(@UploadedFiles() images: Express.Multer.File[], @Body() body: any) {
-    console.log({ c: body.catagoryId, b: body.brandId })
-    const catagoryId = body.catagoryId ? JSON.parse(body.catagoryId) : null;
-    const brandId = body.brandId ? JSON.parse(body.brandId) : null;
-    console.log({ catagoryId, brandId })
+    const catagoryId = this.JsonParser(body.catagoryId)
+    const brandId = this.JsonParser(body.brandId)
+    const isOnSale = this.JsonParser(body.isOnSale)
+    const discountPercent = +this.JsonParser(body.discountPercent)
+    const salePrice = +this.JsonParser(body.salePrice)
+
+    console.log({ catagoryId, brandId, isOnSale, discountPercent, salePrice })
     body.picUrl = await this.upload.manyUpload(images)
-    const product = plainToInstance(CreateProductDto, { ...body, catagoryId, brandId });
+    const product = plainToInstance(CreateProductDto, { ...body, catagoryId, brandId, isOnSale, discountPercent, salePrice });
     return this.productsService.create(product);
   }
 
 
   @Post("dev")
   async devCreate(@Body() body: any) {
-    const product = plainToInstance(CreateProductDto, { ...body});
+    const product = plainToInstance(CreateProductDto, { ...body });
     return this.productsService.create(product);
   }
 
@@ -48,7 +51,7 @@ export class ProductsController {
   }
 
   @Get("search/name/:name")
-  findAllOnName(@Param('name') name :string) {
+  findAllOnName(@Param('name') name: string) {
     return this.productsService.findAllOnName(name)
   }
 
@@ -71,5 +74,15 @@ export class ProductsController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.productsService.remove(id);
+  }
+
+
+
+  JsonParser(data: any) {
+    try {
+      return typeof data === "string" ? JSON.parse(data) : data;
+    } catch (error) {
+      return null;
+    }
   }
 }

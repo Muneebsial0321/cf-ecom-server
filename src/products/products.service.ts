@@ -38,6 +38,7 @@ export class ProductsService {
         picUrl: true,
         tags: true,
         isOnSale: true,
+        discountPercent:true,
         brand: { select: { name: true, picUrl: true } },
         catagory: { select: { name: true, picUrl: true } }
       }
