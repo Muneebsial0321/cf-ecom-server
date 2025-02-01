@@ -29,7 +29,7 @@ export class ReelsService {
   }
 
   findAll() {
-    return this.db.reel.findMany()
+    return this.db.reel.findMany({ orderBy: { likeCount: "desc" } })
   }
 
   async findOne(id: string) {

@@ -38,7 +38,7 @@ export class ProductsService {
         picUrl: true,
         tags: true,
         isOnSale: true,
-        discountPercent:true,
+        discountPercent: true,
         brand: { select: { name: true, picUrl: true } },
         catagory: { select: { name: true, picUrl: true } }
       }
@@ -55,6 +55,15 @@ export class ProductsService {
     return transformedProducts;
   }
 
+  async findSearchResultsName(prodName: string) {
+    const name = await this.db.product
+      .findMany({
+        select: { name: true },
+        where: { name: { contains: prodName, mode: "insensitive" } },
+        take:4
+      })
+    return name.map((e) => e.name)
+  }
 
   async categoryFindAll(catName: string) {
     return await this.db.product
@@ -66,6 +75,7 @@ export class ProductsService {
         }
       })
   }
+
   async findAllOnName(prodName: string) {
     return await this.db.product
       .findMany({

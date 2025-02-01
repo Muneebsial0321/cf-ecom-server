@@ -50,6 +50,11 @@ export class ProductsController {
     return this.productsService.findAllOnSale();
   }
 
+  @Get("name/:prodname")
+  findSearchResultsName(@Param('prodname') prodName:string ) {
+    return this.productsService.findSearchResultsName(prodName);
+  }
+
   @Get("search/name/:name")
   findAllOnName(@Param('name') name: string) {
     return this.productsService.findAllOnName(name)
