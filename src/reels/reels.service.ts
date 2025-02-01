@@ -17,15 +17,16 @@ export class ReelsService {
     const newReel = await this.db.reel.create({
       data: reel
     })
-    await this.db.coinMileStone.create({
-      data: {
-        objId: newReel.id,
-        objType: "reel",
-        mileStone: 0
-      }
-    })
-    await this.coin.Transaction(reel.userId, PointsEnum.reelUpload, TransactionTypeEnum.earn, "reel upload")
     return newReel
+    // await this.db.coinMileStone.create({
+    //   data: {
+    //     objId: newReel.id,
+    //     objType: "reel",
+    //     mileStone: 0
+    //   }
+    // })
+    // await this.coin.Transaction(reel.userId, PointsEnum.reelUpload, TransactionTypeEnum.earn, "reel upload")
+   
   }
 
   findAll() {
